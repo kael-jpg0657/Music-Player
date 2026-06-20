@@ -361,6 +361,7 @@ textarea::placeholder{color:var(--label3);}
         <input type="range" min="-12" max="12" value="0" step="1" id="pitchSlider">
         <button class="pitch-step-btn" id="pitchUp">▲ Raise</button>
       </div>
+      <div class="lyrics-hint" style="margin-top:8px;">Key shift only — hindi naaapektuhan ang speed/tempo ng kanta.</div>
     </div>
   </div>
 
@@ -513,7 +514,7 @@ textarea::placeholder{color:var(--label3);}
 const state = {
   tracks: [], currentIndex: -1, isPlaying: false,
   shuffle: false, repeat: false, pitch: 0,
-  audio: null, audioCtx: null, sourceNode: null,
+  audio: null, audioCtx: null, sourceNode: null, pitchShiftNode: null,
   eqFilters: [], bassFilter: null,
   lyricsMap: {}, favorites: new Set(), volume: 1,
   playlists: [{ id: 'lib', name: 'Library', tracks: [] }],
@@ -685,9 +686,66 @@ const EQ_PRESETS = {
 let eqGains = EQ_BANDS.map(()=>0);
 let bassBoost = 0;
 
+/* ════════════════════════════════════════════════
+   REAL-TIME PITCH SHIFTER (KEY) — independent of speed/tempo
+   Granular overlap-add technique: two Hann-windowed grains read from a
+   delay-line at `pitchRatio` speed while audio is written/played at normal
+   real-time rate, so the song's KEY changes without changing its SPEED.
+════════════════════════════════════════════════ */
+function createPitchShiftNode(audioCtx, channelCount){
+  const grainSize = 2048;          // ~46ms @ 44.1kHz — good balance of latency/quality
+  const delayLen = grainSize * 4;  // history buffer, generous margin for any pitch ratio
+  const hann = new Float32Array(grainSize);
+  for(let i=0;i<grainSize;i++) hann[i] = 0.5 - 0.5*Math.cos(2*Math.PI*i/grainSize);
+
+  const node = audioCtx.createScriptProcessor(2048, channelCount, channelCount);
+  const chans = [];
+  for(let c=0;c<channelCount;c++){
+    chans.push({
+      delay: new Float32Array(delayLen),
+      writeIdx: 0,
+      grains: [ { phase: 0, startIdx: -grainSize }, { phase: grainSize/2, startIdx: -grainSize } ]
+    });
+  }
+  let pitchRatio = 1;
+  node.setPitchRatio = (r)=>{ pitchRatio = r; };
+
+  node.onaudioprocess = function(e){
+    const n = e.inputBuffer.length;
+    for(let c=0;c<channelCount;c++){
+      const input = e.inputBuffer.getChannelData(c);
+      const output = e.outputBuffer.getChannelData(c);
+      const ch = chans[c];
+      const delay = ch.delay;
+      for(let i=0;i<n;i++){
+        const wIdx = ch.writeIdx;
+        delay[wIdx % delayLen] = input[i];
+        ch.writeIdx++;
+
+        let out = 0;
+        for(const g of ch.grains){
+          g.phase += pitchRatio;
+          if(g.phase >= grainSize){ g.phase -= grainSize; g.startIdx = wIdx - grainSize; }
+          const readPos = g.startIdx + g.phase;
+          const idx0 = Math.floor(readPos);
+          const frac = readPos - idx0;
+          const s0 = delay[((idx0 % delayLen) + delayLen) % delayLen];
+          const s1 = delay[(((idx0+1) % delayLen) + delayLen) % delayLen];
+          const sample = s0 + (s1 - s0) * frac;
+          const w = hann[Math.min(grainSize-1, Math.max(0, Math.floor(g.phase)))];
+          out += sample * w;
+        }
+        output[i] = out;
+      }
+    }
+  };
+  return node;
+}
+
 function initAudioCtx(){
   if(state.audioCtx) return;
   state.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  state.pitchShiftNode = createPitchShiftNode(state.audioCtx, 2);
   // EQ filters
   state.eqFilters = EQ_BANDS.map((b,i)=>{
     const f = state.audioCtx.createBiquadFilter();
@@ -702,7 +760,8 @@ function initAudioCtx(){
   state.bassFilter.type = 'lowshelf';
   state.bassFilter.frequency.value = 120;
   state.bassFilter.gain.value = bassBoost;
-  // Chain: source → bassFilter → eq[0] → eq[1] → … → destination
+  // Chain: source → pitchShiftNode (Key) → bassFilter → eq[0] → eq[1] → … → destination
+  state.pitchShiftNode.connect(state.bassFilter);
   state.eqFilters.reduce((prev,f)=>{ prev.connect(f); return f; }, state.bassFilter);
   state.eqFilters[state.eqFilters.length-1].connect(state.audioCtx.destination);
 }
@@ -711,7 +770,7 @@ function connectSourceToGraph(){
   if(!state.audioCtx||!state.audio) return;
   if(state.sourceNode){ try{state.sourceNode.disconnect();}catch(e){} }
   state.sourceNode = state.audioCtx.createMediaElementSource(state.audio);
-  state.sourceNode.connect(state.bassFilter);
+  state.sourceNode.connect(state.pitchShiftNode);
 }
 
 function applyEQBand(i,val){
@@ -1087,7 +1146,10 @@ function updateUI(){
 /* ════════════════════════════════════════════════
    PITCH
 ════════════════════════════════════════════════ */
-function applyPitch(){ if(state.audio) state.audio.playbackRate=Math.pow(2,state.pitch/12); }
+function applyPitch(){
+  if(state.pitchShiftNode) state.pitchShiftNode.setPitchRatio(Math.pow(2,state.pitch/12));
+  if(state.audio) state.audio.playbackRate = 1; // speed/tempo stays normal — only the KEY changes
+}
 
 /* ════════════════════════════════════════════════
    LOAD TRACK
