@@ -10,10 +10,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Music">
 <title>Music</title>
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -164,26 +160,6 @@ textarea::placeholder{color:var(--label3);}
 .save-btn:active{background:var(--accent-dark);transform:scale(.95);}
 .saved-note{font-size:13px;color:var(--accent);font-weight:600;display:none;}
 
-/* LYRICS MODE TOGGLE */
-.lyrics-modes{display:flex;gap:6px;background:var(--fill1);border-radius:11px;padding:3px;margin-bottom:12px;}
-.lyrics-mode-btn{flex:1;background:none;border:none;border-radius:9px;padding:7px 0;font-size:13px;font-weight:600;color:var(--label2);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s,color .15s;}
-.lyrics-mode-btn.active{background:var(--surface1);color:var(--accent);box-shadow:0 1px 4px rgba(0,0,0,.1);}
-
-/* SYNCED LYRICS VIEW */
-.lyrics-view{display:none;max-height:320px;overflow-y:auto;padding:6px 2px;scroll-behavior:smooth;mask-image:linear-gradient(to bottom,transparent 0,#000 18px,#000 calc(100% - 18px),transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 18px,#000 calc(100% - 18px),transparent 100%);}
-.lyrics-view.visible{display:block;}
-.lyrics-line{font-size:15px;line-height:1.9;color:var(--label3);padding:4px 4px;font-weight:500;transition:color .25s,transform .25s,font-weight .25s;cursor:pointer;border-radius:8px;}
-.lyrics-line:active{background:var(--fill1);}
-.lyrics-line.played{color:var(--label2);}
-.lyrics-line.current{color:var(--accent);font-weight:700;font-size:17px;transform:scale(1.02);}
-.lyrics-empty-view{font-size:14px;color:var(--label3);text-align:center;padding:1.5rem 0;}
-
-/* TIMESTAMP TAG BUTTON (edit mode helper) */
-.lyrics-tag-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;}
-.tag-time-btn{background:var(--fill1);border:none;border-radius:10px;padding:7px 12px;font-size:12px;font-weight:600;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:6px;-webkit-tap-highlight-color:transparent;transition:background .15s;white-space:nowrap;}
-.tag-time-btn:active{background:var(--fill2);transform:scale(.95);}
-.lyrics-hint{font-size:12px;color:var(--label3);line-height:1.5;}
-
 /* EQ BARS ANIMATION */
 @keyframes dot-bounce{0%,80%,100%{transform:scaleY(1)}40%{transform:scaleY(2.2)}}
 .eq-bars{display:none;align-items:flex-end;gap:2px;height:14px;}
@@ -208,6 +184,28 @@ textarea::placeholder{color:var(--label3);}
 .eq-slider::-webkit-slider-thumb{width:20px!important;height:20px!important;}
 .eq-band-label{font-size:10px;color:var(--label3);font-weight:600;letter-spacing:.3px;}
 .eq-band-val{font-size:11px;font-weight:700;color:var(--accent);min-width:28px;text-align:center;}
+
+/* ═══════════════════════════════════════════════
+   FX SECTION
+═══════════════════════════════════════════════ */
+.fx-body{padding:16px;}
+.fx-row{display:flex;flex-direction:column;gap:12px;}
+.fx-item{background:var(--fill1);border-radius:16px;padding:12px 14px;}
+.fx-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.fx-icon{font-size:15px;flex-shrink:0;}
+.fx-label{font-size:13px;font-weight:600;color:var(--label1);flex:1;}
+.fx-val{font-size:12px;font-weight:700;min-width:42px;text-align:right;}
+.fx-val.green{color:#30d158;}.fx-val.blue{color:#0a84ff;}.fx-val.purple{color:var(--accent);}.fx-val.orange{color:#ff9f0a;}
+.fx-toggle{position:relative;width:44px;height:26px;flex-shrink:0;}
+.fx-toggle input{opacity:0;width:0;height:0;position:absolute;}
+.fx-toggle-track{position:absolute;inset:0;background:var(--fill2);border-radius:13px;transition:background .2s;cursor:pointer;}
+.fx-toggle input:checked+.fx-toggle-track{background:#30d158;}
+.fx-toggle-thumb{position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.3);transition:transform .2s;pointer-events:none;}
+.fx-toggle input:checked~.fx-toggle-thumb{transform:translateX(18px);}
+.fx-slider{width:100%;-webkit-appearance:none;height:4px;background:var(--fill2);border-radius:99px;outline:none;cursor:pointer;}
+.fx-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:var(--thumb-shadow);cursor:pointer;}
+.fx-slider.green::-webkit-slider-thumb{background:#30d158;}.fx-slider.blue::-webkit-slider-thumb{background:#0a84ff;}.fx-slider.purple::-webkit-slider-thumb{background:var(--accent);}.fx-slider.orange::-webkit-slider-thumb{background:#ff9f0a;}
+.fx-disabled{opacity:.38;pointer-events:none;}
 
 /* BASS BOOST */
 .bass-section{border-top:1px solid var(--separator);padding-top:12px;}
@@ -286,6 +284,69 @@ textarea::placeholder{color:var(--label3);}
 .pl-tab{flex:1;padding:10px 8px;font-size:13px;font-weight:600;color:var(--label3);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;-webkit-tap-highlight-color:transparent;transition:color .15s,border-color .15s;}
 .pl-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
 
+/* ═══════════════════════════════════════════════
+   BOTTOM TAB BAR
+═══════════════════════════════════════════════ */
+.tab-bar{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:430px;
+  background:var(--surface1);
+  border-top:1px solid var(--separator);
+  display:flex;
+  padding:8px 0 calc(env(safe-area-inset-bottom,0) + 4px);
+  z-index:50;
+  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+  background:rgba(255,255,255,0.85);
+  transition:background .3s;
+}
+[data-theme="dark"] .tab-bar{background:rgba(28,28,30,0.88);}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tab-bar{background:rgba(28,28,30,0.88);}}
+
+.tab-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+  background:none;border:none;cursor:pointer;
+  color:var(--label3);padding:4px 0;
+  -webkit-tap-highlight-color:transparent;
+  transition:color .15s,transform .1s;
+  font-size:10px;font-weight:600;letter-spacing:.2px;
+}
+.tab-btn:active{transform:scale(.9);}
+.tab-btn.active{color:var(--accent);}
+.tab-btn svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s;}
+
+/* TAB PANELS */
+.tab-panel{display:none;padding-bottom:90px;}
+.tab-panel.active{display:block;}
+
+/* MINI NOW-PLAYING BAR (shown on non-player tabs) */
+.mini-player{
+  background:var(--surface1);border-radius:16px;
+  margin:0 12px 10px;padding:10px 14px;
+  display:none;align-items:center;gap:12px;
+  box-shadow:var(--card-shadow);
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  position:sticky;top:8px;z-index:10;
+  transition:background .3s;
+}
+.mini-player.visible{display:flex;}
+.mini-art{width:36px;height:36px;border-radius:10px;background:var(--album-bg);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.mini-info{flex:1;min-width:0;}
+.mini-title{font-size:13px;font-weight:600;color:var(--label1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mini-artist{font-size:11px;color:var(--label3);}
+.mini-play{background:none;border:none;cursor:pointer;color:var(--label1);padding:4px;-webkit-tap-highlight-color:transparent;}
+.mini-play svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;}
+.mini-next{background:none;border:none;cursor:pointer;color:var(--label3);padding:4px;-webkit-tap-highlight-color:transparent;}
+.mini-next svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;}
+
+/* SOUND TAB inner tabs */
+.sound-tabs{display:flex;gap:8px;padding:12px 16px 0;overflow-x:auto;scrollbar-width:none;}
+.sound-tabs::-webkit-scrollbar{display:none;}
+.sound-tab-chip{flex-shrink:0;background:var(--fill1);border:1.5px solid transparent;border-radius:20px;padding:6px 16px;font-size:13px;font-weight:600;color:var(--label2);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s;white-space:nowrap;border:none;}
+.sound-tab-chip.active{background:var(--accent);color:#fff;}
+.sound-tab-chip:active{transform:scale(.94);}
+.sound-sub-panel{display:none;padding:14px 16px;}
+.sound-sub-panel.active{display:block;}
+
 @media (prefers-reduced-motion:reduce){
   .bar,.eq-bars span{animation:none!important;height:10px!important;}
   .album-art,.modal-sheet,.add-to-pl-sheet{transition:none!important;animation:none!important;}
@@ -296,7 +357,7 @@ textarea::placeholder{color:var(--label3);}
 <div class="app">
 
   <div class="topbar">
-    <span class="topbar-title">Music</span>
+    <span class="topbar-title" id="topbarTitle">Now Playing</span>
     <div class="topbar-right">
       <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">☀️</button>
     </div>
@@ -308,74 +369,94 @@ textarea::placeholder{color:var(--label3);}
     <button class="dismiss-btn" id="dismissBtn">&#x2715;</button>
   </div>
 
-  <!-- NOW PLAYING -->
-  <div class="now-playing-card">
-    <div class="album-art" id="albumArt">
-      <svg class="cover-icon" id="musicIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
-      </svg>
-      <div class="visualizer" id="visualizer">
-        <div class="bar" style="height:8px"></div><div class="bar" style="height:14px"></div>
-        <div class="bar" style="height:6px"></div><div class="bar" style="height:18px"></div>
-        <div class="bar" style="height:10px"></div>
+  <!-- ══════════════════════════════════
+       TAB 1 — NOW PLAYING
+  ══════════════════════════════════ -->
+  <div class="tab-panel active" id="panelPlayer">
+    <div class="now-playing-card">
+      <div class="album-art" id="albumArt">
+        <svg class="cover-icon" id="musicIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+        </svg>
+        <div class="visualizer" id="visualizer">
+          <div class="bar" style="height:8px"></div><div class="bar" style="height:14px"></div>
+          <div class="bar" style="height:6px"></div><div class="bar" style="height:18px"></div>
+          <div class="bar" style="height:10px"></div>
+        </div>
       </div>
-    </div>
 
-    <div class="track-info">
-      <div class="track-text">
-        <div class="track-title" id="trackTitle">No track selected</div>
-        <div class="track-artist" id="trackArtist">Upload a song to get started</div>
+      <div class="track-info">
+        <div class="track-text">
+          <div class="track-title" id="trackTitle">No track selected</div>
+          <div class="track-artist" id="trackArtist">Upload a song to get started</div>
+        </div>
+        <button class="fav-btn" id="favBtn">♡</button>
       </div>
-      <button class="fav-btn" id="favBtn">♡</button>
-    </div>
 
-    <div class="progress-area">
-      <div class="progress-wrap" id="progressWrap">
-        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      <div class="progress-area">
+        <div class="progress-wrap" id="progressWrap">
+          <div class="progress-fill" id="progressFill" style="width:0%"></div>
+        </div>
+        <div class="time-row"><span id="currentTime">0:00</span><span id="totalTime">0:00</span></div>
       </div>
-      <div class="time-row"><span id="currentTime">0:00</span><span id="totalTime">0:00</span></div>
-    </div>
 
-    <div class="controls">
-      <button class="ctrl-btn" id="shuffleBtn"><svg class="icon" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg></button>
-      <button class="ctrl-btn" id="prevBtn"><svg class="icon icon-lg" viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg></button>
-      <button class="play-btn" id="playBtn"><svg class="icon icon-xl" id="playIcon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
-      <button class="ctrl-btn" id="nextBtn"><svg class="icon icon-lg" viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></button>
-      <button class="ctrl-btn" id="repeatBtn"><svg class="icon" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></button>
-    </div>
-
-    <div class="volume-row">
-      <span class="vol-icon"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg></span>
-      <input type="range" class="vol-slider" id="volSlider" min="0" max="1" step="0.01" value="1">
-      <span class="vol-icon"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></span>
-    </div>
-
-    <div class="pitch-section">
-      <div class="pitch-header">
-        <span class="pitch-label">Pitch / Key</span>
-        <span class="pitch-value" id="pitchDisplay">0 semitones</span>
-        <button class="pitch-reset" id="pitchReset">Reset</button>
+      <div class="controls">
+        <button class="ctrl-btn" id="shuffleBtn"><svg class="icon" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg></button>
+        <button class="ctrl-btn" id="prevBtn"><svg class="icon icon-lg" viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg></button>
+        <button class="play-btn" id="playBtn"><svg class="icon icon-xl" id="playIcon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
+        <button class="ctrl-btn" id="nextBtn"><svg class="icon icon-lg" viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></button>
+        <button class="ctrl-btn" id="repeatBtn"><svg class="icon" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></button>
       </div>
-      <div class="pitch-row">
-        <button class="pitch-step-btn" id="pitchDown">▼ Lower</button>
-        <input type="range" min="-12" max="12" value="0" step="1" id="pitchSlider">
-        <button class="pitch-step-btn" id="pitchUp">▲ Raise</button>
+
+      <div class="volume-row">
+        <span class="vol-icon"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg></span>
+        <input type="range" class="vol-slider" id="volSlider" min="0" max="1" step="0.01" value="1">
+        <span class="vol-icon"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></span>
       </div>
-      <div class="lyrics-hint" style="margin-top:8px;">Key shift only — hindi naaapektuhan ang speed/tempo ng kanta.</div>
+
+      <div class="pitch-section">
+        <div class="pitch-header">
+          <span class="pitch-label">Pitch / Key</span>
+          <span class="pitch-value" id="pitchDisplay">0 semitones</span>
+          <button class="pitch-reset" id="pitchReset">Reset</button>
+        </div>
+        <div class="pitch-row">
+          <button class="pitch-step-btn" id="pitchDown">▼ Lower</button>
+          <input type="range" min="-12" max="12" value="0" step="1" id="pitchSlider">
+          <button class="pitch-step-btn" id="pitchUp">▲ Raise</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- EQUALIZER + BASS BOOST -->
-  <div class="section-card">
-    <div class="section-hdr">
-      <span class="section-title">
-        <svg class="icon" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
-        Equalizer
-      </span>
+  <!-- ══════════════════════════════════
+       TAB 2 — SOUND (EQ + FX)
+  ══════════════════════════════════ -->
+  <div class="tab-panel" id="panelSound">
+    <!-- Mini player -->
+    <div class="mini-player" id="miniPlayerSound">
+      <div class="mini-art">🎵</div>
+      <div class="mini-info">
+        <div class="mini-title" id="miniTitleSound">No track</div>
+        <div class="mini-artist">Your Library</div>
+      </div>
+      <button class="mini-play" id="miniPlaySound"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
+      <button class="mini-next" id="miniNextSound"><svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></button>
     </div>
-    <div class="eq-body">
-      <!-- Presets -->
-      <div class="eq-presets" id="eqPresets">
+
+    <!-- Sound sub-tabs -->
+    <div class="sound-tabs">
+      <button class="sound-tab-chip active" data-sub="Eq">🎛 Equalizer</button>
+      <button class="sound-tab-chip" data-sub="Bass">🔊 Bass Boost</button>
+      <button class="sound-tab-chip" data-sub="Comp">⚡ Compressor</button>
+      <button class="sound-tab-chip" data-sub="Widen">↔️ Widener</button>
+      <button class="sound-tab-chip" data-sub="Reverb">🌊 Reverb</button>
+      <button class="sound-tab-chip" data-sub="Gain">🎚️ Master Gain</button>
+    </div>
+
+    <!-- EQ -->
+    <div class="sound-sub-panel active" id="subEq">
+      <div class="eq-presets" id="eqPresets" style="margin-bottom:16px;">
         <button class="preset-chip active" data-preset="flat">Flat</button>
         <button class="preset-chip" data-preset="bass">Bass Boost</button>
         <button class="preset-chip" data-preset="treble">Treble Boost</button>
@@ -385,87 +466,203 @@ textarea::placeholder{color:var(--label3);}
         <button class="preset-chip" data-preset="jazz">Jazz</button>
         <button class="preset-chip" data-preset="classical">Classical</button>
       </div>
+      <div class="eq-bands" id="eqBands"></div>
+    </div>
 
-      <!-- EQ Bands (vertical sliders) -->
-      <div class="eq-bands" id="eqBands">
-        <!-- filled by JS -->
-      </div>
-
-      <!-- Bass Boost -->
-      <div class="bass-section">
-        <div class="bass-header">
-          <span class="bass-label"><span class="bass-emoji">🔊</span> Bass Boost</span>
-          <span class="bass-val" id="bassVal">0 dB</span>
+    <!-- Bass Boost -->
+    <div class="sound-sub-panel" id="subBass">
+      <div class="fx-item">
+        <div class="fx-header">
+          <span class="fx-icon">🔊</span>
+          <span class="fx-label">Bass Boost</span>
+          <span class="fx-val orange" id="bassVal">0 dB</span>
           <button class="bass-reset" id="bassReset">Reset</button>
         </div>
-        <div class="bass-row">
+        <div style="display:flex;align-items:center;gap:10px;margin-top:4px;">
           <span style="font-size:12px;color:var(--label3);">0</span>
-          <input type="range" class="bass-slider" id="bassSlider" min="0" max="20" step="1" value="0">
+          <input type="range" class="bass-slider" id="bassSlider" min="0" max="20" step="1" value="0" style="flex:1;">
           <span style="font-size:12px;color:var(--label3);">+20</span>
         </div>
+        <p style="font-size:12px;color:var(--label3);margin-top:12px;line-height:1.5;">Nagpapalaki ng low-end frequencies (120Hz low-shelf). Para sa mas malalim na bass ng musika.</p>
+      </div>
+    </div>
+
+    <!-- Compressor -->
+    <div class="sound-sub-panel" id="subComp">
+      <div class="fx-item">
+        <div class="fx-header">
+          <span class="fx-icon">⚡</span>
+          <span class="fx-label">Compressor</span>
+          <span class="fx-val green" id="compVal">ON</span>
+          <label class="fx-toggle">
+            <input type="checkbox" id="compToggle" checked>
+            <div class="fx-toggle-track"></div>
+            <div class="fx-toggle-thumb"></div>
+          </label>
+        </div>
+        <div id="compControls" style="margin-top:10px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--label3);margin-bottom:6px;"><span>Threshold: <b id="compThreshVal" style="color:var(--label1)">-24 dB</b></span><span>Ratio: <b id="compRatioVal" style="color:var(--label1)">4:1</b></span></div>
+          <input type="range" class="fx-slider green" id="compThresh" min="-60" max="0" step="1" value="-24" style="margin-bottom:12px;width:100%;">
+          <input type="range" class="fx-slider green" id="compRatio" min="1" max="20" step="0.5" value="4" style="width:100%;">
+        </div>
+        <p style="font-size:12px;color:var(--label3);margin-top:12px;line-height:1.5;">Pinigitang ang dynamics ng audio para mas maayos at malinis ang pakinggan. Ginagamit ng lahat ng pro music apps.</p>
+      </div>
+    </div>
+
+    <!-- Stereo Widener -->
+    <div class="sound-sub-panel" id="subWiden">
+      <div class="fx-item">
+        <div class="fx-header">
+          <span class="fx-icon">↔️</span>
+          <span class="fx-label">Stereo Widener</span>
+          <span class="fx-val blue" id="widenVal">0%</span>
+          <label class="fx-toggle">
+            <input type="checkbox" id="widenToggle">
+            <div class="fx-toggle-track"></div>
+            <div class="fx-toggle-thumb"></div>
+          </label>
+        </div>
+        <div id="widenControls" class="fx-disabled" style="margin-top:10px;">
+          <input type="range" class="fx-slider blue" id="widenAmount" min="0" max="100" step="1" value="0" style="width:100%;">
+        </div>
+        <p style="font-size:12px;color:var(--label3);margin-top:12px;line-height:1.5;">Nagpapalawak ng stereo field. Pinaka-maganda gamitin sa headphones. I-on muna ang toggle bago i-adjust.</p>
+      </div>
+    </div>
+
+    <!-- Reverb -->
+    <div class="sound-sub-panel" id="subReverb">
+      <div class="fx-item">
+        <div class="fx-header">
+          <span class="fx-icon">🌊</span>
+          <span class="fx-label">Reverb</span>
+          <span class="fx-val purple" id="reverbVal">0%</span>
+          <label class="fx-toggle">
+            <input type="checkbox" id="reverbToggle">
+            <div class="fx-toggle-track"></div>
+            <div class="fx-toggle-thumb"></div>
+          </label>
+        </div>
+        <div id="reverbControls" class="fx-disabled" style="margin-top:10px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--label3);margin-bottom:6px;"><span>Mix: <b id="reverbMixVal" style="color:var(--label1)">0%</b></span><span>Decay: <b id="reverbDecayVal" style="color:var(--label1)">1.5s</b></span></div>
+          <input type="range" class="fx-slider purple" id="reverbMix" min="0" max="100" step="1" value="0" style="margin-bottom:12px;width:100%;">
+          <input type="range" class="fx-slider purple" id="reverbDecay" min="0.1" max="6" step="0.1" value="1.5" style="width:100%;">
+        </div>
+        <p style="font-size:12px;color:var(--label3);margin-top:12px;line-height:1.5;">Nagdadagdag ng room/hall effect. Inirerekomenda: Mix 10–25%, Decay 1–2s para sa natural na tunog.</p>
+      </div>
+    </div>
+
+    <!-- Master Gain -->
+    <div class="sound-sub-panel" id="subGain">
+      <div class="fx-item">
+        <div class="fx-header">
+          <span class="fx-icon">🎚️</span>
+          <span class="fx-label">Master Gain</span>
+          <span class="fx-val orange" id="gainVal">0 dB</span>
+          <button class="bass-reset" id="gainReset">Reset</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+          <span style="font-size:12px;color:var(--label3);">-12</span>
+          <input type="range" class="fx-slider orange" id="gainSlider" min="-12" max="12" step="0.5" value="0" style="flex:1;">
+          <span style="font-size:12px;color:var(--label3);">+12</span>
+        </div>
+        <p style="font-size:12px;color:var(--label3);margin-top:12px;line-height:1.5;">Pre-amplifier ng buong signal chain. I-boost kapag mababa ang volume ng track, o i-reduce para maiwasan ang clipping.</p>
       </div>
     </div>
   </div>
 
-  <!-- LYRICS -->
-  <div class="section-card">
-    <div class="section-hdr">
-      <span class="section-title">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        Lyrics Notes
-      </span>
-      <span id="lyricsTrackName" style="font-size:12px;color:var(--label3);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+  <!-- ══════════════════════════════════
+       TAB 3 — LIBRARY
+  ══════════════════════════════════ -->
+  <div class="tab-panel" id="panelLibrary">
+    <div class="mini-player" id="miniPlayerLib">
+      <div class="mini-art">🎵</div>
+      <div class="mini-info">
+        <div class="mini-title" id="miniTitleLib">No track</div>
+        <div class="mini-artist">Your Library</div>
+      </div>
+      <button class="mini-play" id="miniPlayLib"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
+      <button class="mini-next" id="miniNextLib"><svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></button>
     </div>
-    <div class="lyrics-body">
-      <div id="noTrackMsg" class="no-track-msg">Pumili ng kanta para mag-add ng lyrics notes</div>
-      <div id="lyricsEditor" style="display:none;">
-        <div class="lyrics-modes">
-          <button class="lyrics-mode-btn active" id="lyricsModeEdit">✏️ I-edit</button>
-          <button class="lyrics-mode-btn" id="lyricsModeView">🎤 Sync View</button>
-        </div>
 
-        <div id="lyricsEditPane">
-          <div class="lyrics-tag-row">
-            <span class="lyrics-hint">Tip: I-type ang bawat linya, pindutin "I-tag" habang tumutugtog para ma-sync.</span>
-            <button class="tag-time-btn" id="tagTimeBtn" type="button">⏱ I-tag</button>
-          </div>
-          <textarea id="lyricsInput" placeholder="I-type dito ang lyrics...&#10;&#10;[00:12.50] Unang linya&#10;[00:16.20] Susunod na linya&#10;...&#10;&#10;Maaari mo ring i-type na walang timestamp."></textarea>
+    <div class="section-card">
+      <div class="section-hdr">
+        <span class="section-title">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          Library
+        </span>
+        <div class="hdr-actions">
+          <button class="hdr-btn" id="openPlaylistsBtn">📋 Playlists</button>
+          <label class="upload-label">
+            <svg style="width:13px;height:13px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Songs
+            <input type="file" accept="audio/*" multiple style="display:none" id="fileInput">
+          </label>
+        </div>
+      </div>
+      <div class="pl-tabs">
+        <button class="pl-tab active" id="tabAll">All Songs</button>
+        <button class="pl-tab" id="tabPlaylist">Playlist</button>
+      </div>
+      <div id="playlistContainer"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 4 — LYRICS
+  ══════════════════════════════════ -->
+  <div class="tab-panel" id="panelLyrics">
+    <div class="mini-player" id="miniPlayerLyrics">
+      <div class="mini-art">🎵</div>
+      <div class="mini-info">
+        <div class="mini-title" id="miniTitleLyrics">No track</div>
+        <div class="mini-artist">Your Library</div>
+      </div>
+      <button class="mini-play" id="miniPlayLyrics"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
+      <button class="mini-next" id="miniNextLyrics"><svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></button>
+    </div>
+
+    <div class="section-card">
+      <div class="section-hdr">
+        <span class="section-title">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Lyrics Notes
+        </span>
+        <span id="lyricsTrackName" style="font-size:12px;color:var(--label3);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+      </div>
+      <div class="lyrics-body">
+        <div id="noTrackMsg" class="no-track-msg">Pumili ng kanta para mag-add ng lyrics notes</div>
+        <div id="lyricsEditor" style="display:none;">
+          <textarea id="lyricsInput" placeholder="I-type dito ang lyrics...&#10;&#10;[Verse 1]&#10;...&#10;&#10;[Chorus]&#10;..."></textarea>
           <div class="lyrics-actions">
             <span class="saved-note" id="savedNote">✓ Nai-save na</span>
             <button class="save-btn" id="saveLyricsBtn">I-save</button>
           </div>
         </div>
-
-        <div id="lyricsView" class="lyrics-view"></div>
       </div>
     </div>
-  </div>
-
-  <!-- LIBRARY / PLAYLIST CARD -->
-  <div class="section-card">
-    <div class="section-hdr">
-      <span class="section-title">
-        <svg class="icon" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-        Library
-      </span>
-      <div class="hdr-actions">
-        <button class="hdr-btn" id="openPlaylistsBtn">📋 Playlists</button>
-        <label class="upload-label">
-          <svg style="width:13px;height:13px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Add Songs
-          <input type="file" accept="audio/*" multiple style="display:none" id="fileInput">
-        </label>
-      </div>
-    </div>
-    <!-- tabs: All Songs | current playlist -->
-    <div class="pl-tabs">
-      <button class="pl-tab active" id="tabAll">All Songs</button>
-      <button class="pl-tab" id="tabPlaylist">Playlist</button>
-    </div>
-    <div id="playlistContainer"></div>
   </div>
 
 </div>
+
+<!-- BOTTOM TAB BAR -->
+<nav class="tab-bar">
+  <button class="tab-btn active" data-tab="panelPlayer" id="tabBtnPlayer">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+    Now Playing
+  </button>
+  <button class="tab-btn" data-tab="panelSound" id="tabBtnSound">
+    <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+    Sound
+  </button>
+  <button class="tab-btn" data-tab="panelLibrary" id="tabBtnLibrary">
+    <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+    Library
+  </button>
+  <button class="tab-btn" data-tab="panelLyrics" id="tabBtnLyrics">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    Lyrics
+  </button>
+</nav>
 
 <!-- ═══ PLAYLISTS MODAL ═══ -->
 <div class="modal-overlay" id="playlistModal">
@@ -476,7 +673,6 @@ textarea::placeholder{color:var(--label3);}
       <button class="modal-close" id="closePlModal">✕</button>
     </div>
     <div class="modal-body">
-      <!-- new playlist form -->
       <div class="new-pl-form">
         <input type="text" id="newPlName" placeholder="New playlist name…" maxlength="40">
         <div class="new-pl-btns">
@@ -514,136 +710,16 @@ textarea::placeholder{color:var(--label3);}
 const state = {
   tracks: [], currentIndex: -1, isPlaying: false,
   shuffle: false, repeat: false, pitch: 0,
-  audio: null, audioCtx: null, sourceNode: null, pitchShiftNode: null,
+  audio: null, audioCtx: null, sourceNode: null,
   eqFilters: [], bassFilter: null,
+  compressor: null, widenGainL: null, widenGainR: null, widenSplitter: null, widenMerger: null,
+  reverbNode: null, reverbGain: null, dryGain: null, masterGain: null,
   lyricsMap: {}, favorites: new Set(), volume: 1,
   playlists: [{ id: 'lib', name: 'Library', tracks: [] }],
-  activePlaylistId: null, // null = show all songs
-  viewTab: 'all', // 'all' | 'playlist'
+  activePlaylistId: null,
+  viewTab: 'all',
   ctxTrackIndex: -1
 };
-
-/* ════════════════════════════════════════════════
-   PERSISTENCE — localStorage (settings/metadata) + IndexedDB (audio files)
-════════════════════════════════════════════════ */
-const LS_KEY = 'musicAppState_v1';
-const IDB_NAME = 'musicAppDB';
-const IDB_STORE = 'audioFiles';
-
-function uid(){ return 'trk_'+Date.now()+'_'+Math.random().toString(36).slice(2,9); }
-
-let _idbPromise = null;
-function openIDB(){
-  if(_idbPromise) return _idbPromise;
-  _idbPromise = new Promise((resolve,reject)=>{
-    const req = indexedDB.open(IDB_NAME, 1);
-    req.onupgradeneeded = ()=>{ req.result.createObjectStore(IDB_STORE); };
-    req.onsuccess = ()=>resolve(req.result);
-    req.onerror = ()=>reject(req.error);
-  });
-  return _idbPromise;
-}
-async function idbSet(id, blob){
-  const db = await openIDB();
-  return new Promise((resolve,reject)=>{
-    const tx = db.transaction(IDB_STORE,'readwrite');
-    tx.objectStore(IDB_STORE).put(blob, id);
-    tx.oncomplete = ()=>resolve(true);
-    tx.onerror = ()=>reject(tx.error);
-  });
-}
-async function idbGet(id){
-  const db = await openIDB();
-  return new Promise((resolve,reject)=>{
-    const tx = db.transaction(IDB_STORE,'readonly');
-    const req = tx.objectStore(IDB_STORE).get(id);
-    req.onsuccess = ()=>resolve(req.result||null);
-    req.onerror = ()=>reject(req.error);
-  });
-}
-async function idbDelete(id){
-  const db = await openIDB();
-  return new Promise((resolve,reject)=>{
-    const tx = db.transaction(IDB_STORE,'readwrite');
-    tx.objectStore(IDB_STORE).delete(id);
-    tx.oncomplete = ()=>resolve(true);
-    tx.onerror = ()=>reject(tx.error);
-  });
-}
-
-let _saveTimer = null;
-function saveState(){
-  clearTimeout(_saveTimer);
-  _saveTimer = setTimeout(()=>{
-    try{
-      const data = {
-        tracks: state.tracks.map(t=>({ id:t.id, name:t.name, duration:t.duration||null })),
-        currentTrackId: state.currentIndex>-1 ? state.tracks[state.currentIndex]?.id : null,
-        lyricsMap: state.lyricsMap,
-        favorites: Array.from(state.favorites),
-        playlists: state.playlists.map(p=>({ id:p.id, name:p.name, tracks:p.tracks })),
-        activePlaylistId: state.activePlaylistId,
-        viewTab: state.viewTab,
-        volume: state.volume,
-        pitch: state.pitch,
-        shuffle: state.shuffle,
-        repeat: state.repeat,
-        eqGains: typeof eqGains!=='undefined' ? eqGains : null,
-        bassBoost: typeof bassBoost!=='undefined' ? bassBoost : 0,
-      };
-      localStorage.setItem(LS_KEY, JSON.stringify(data));
-    }catch(e){ console.warn('saveState failed', e); }
-  }, 250);
-}
-
-async function loadPersistedState(){
-  let data = null;
-  try{ const raw = localStorage.getItem(LS_KEY); if(raw) data = JSON.parse(raw); }catch(e){ console.warn('loadPersistedState parse failed', e); }
-  if(!data) return;
-
-  // Restore simple settings first
-  state.lyricsMap = data.lyricsMap || {};
-  state.favorites = new Set(data.favorites || []);
-  if(Array.isArray(data.playlists) && data.playlists.length) state.playlists = data.playlists;
-  state.activePlaylistId = data.activePlaylistId ?? null;
-  state.viewTab = data.activePlaylistId ? (data.viewTab||'all') : 'all';
-  state.volume = typeof data.volume==='number' ? data.volume : 1;
-  state.pitch = data.pitch || 0;
-  state.shuffle = !!data.shuffle;
-  state.repeat = !!data.repeat;
-
-  document.getElementById('volSlider').value = state.volume;
-  setPitch(state.pitch);
-  document.getElementById('shuffleBtn').classList.toggle('active', state.shuffle);
-  document.getElementById('repeatBtn').classList.toggle('active', state.repeat);
-
-  if(Array.isArray(data.eqGains)){
-    eqGains = data.eqGains.slice();
-    eqGains.forEach((v,i)=>applyEQBand(i,v));
-  }
-  if(typeof data.bassBoost==='number'){ bassBoost = data.bassBoost; applyBassBoost(bassBoost); }
-
-  // Restore track metadata, then hydrate audio blobs from IndexedDB
-  const trackMetas = Array.isArray(data.tracks) ? data.tracks : [];
-  state.tracks = trackMetas.map(m=>({ id:m.id, name:m.name, duration:m.duration||null, url:null }));
-
-  await Promise.all(state.tracks.map(async (t)=>{
-    try{
-      const blob = await idbGet(t.id);
-      if(blob) t.url = URL.createObjectURL(blob);
-    }catch(e){ console.warn('failed to load audio for', t.name, e); }
-  }));
-  // Drop tracks whose audio could not be restored
-  state.tracks = state.tracks.filter(t=>t.url);
-
-  if(data.currentTrackId){
-    const idx = state.tracks.findIndex(t=>t.id===data.currentTrackId);
-    if(idx>-1) state.currentIndex = idx;
-  }
-
-  renderPlaylist(); updateUI(); updateLyrics(); updateTabs();
-}
-
 
 /* ════════════════════════════════════════════════
    THEME
@@ -686,91 +762,105 @@ const EQ_PRESETS = {
 let eqGains = EQ_BANDS.map(()=>0);
 let bassBoost = 0;
 
-/* ════════════════════════════════════════════════
-   REAL-TIME PITCH SHIFTER (KEY) — independent of speed/tempo
-   Granular overlap-add technique: two Hann-windowed grains read from a
-   delay-line at `pitchRatio` speed while audio is written/played at normal
-   real-time rate, so the song's KEY changes without changing its SPEED.
-════════════════════════════════════════════════ */
-function createPitchShiftNode(audioCtx, channelCount){
-  const grainSize = 2048;          // ~46ms @ 44.1kHz — good balance of latency/quality
-  const delayLen = grainSize * 4;  // history buffer, generous margin for any pitch ratio
-  const hann = new Float32Array(grainSize);
-  for(let i=0;i<grainSize;i++) hann[i] = 0.5 - 0.5*Math.cos(2*Math.PI*i/grainSize);
-
-  const node = audioCtx.createScriptProcessor(2048, channelCount, channelCount);
-  const chans = [];
-  for(let c=0;c<channelCount;c++){
-    chans.push({
-      delay: new Float32Array(delayLen),
-      writeIdx: 0,
-      grains: [ { phase: 0, startIdx: -grainSize }, { phase: grainSize/2, startIdx: -grainSize } ]
-    });
-  }
-  let pitchRatio = 1;
-  node.setPitchRatio = (r)=>{ pitchRatio = r; };
-
-  node.onaudioprocess = function(e){
-    const n = e.inputBuffer.length;
-    for(let c=0;c<channelCount;c++){
-      const input = e.inputBuffer.getChannelData(c);
-      const output = e.outputBuffer.getChannelData(c);
-      const ch = chans[c];
-      const delay = ch.delay;
-      for(let i=0;i<n;i++){
-        const wIdx = ch.writeIdx;
-        delay[wIdx % delayLen] = input[i];
-        ch.writeIdx++;
-
-        let out = 0;
-        for(const g of ch.grains){
-          g.phase += pitchRatio;
-          if(g.phase >= grainSize){ g.phase -= grainSize; g.startIdx = wIdx - grainSize; }
-          const readPos = g.startIdx + g.phase;
-          const idx0 = Math.floor(readPos);
-          const frac = readPos - idx0;
-          const s0 = delay[((idx0 % delayLen) + delayLen) % delayLen];
-          const s1 = delay[(((idx0+1) % delayLen) + delayLen) % delayLen];
-          const sample = s0 + (s1 - s0) * frac;
-          const w = hann[Math.min(grainSize-1, Math.max(0, Math.floor(g.phase)))];
-          out += sample * w;
-        }
-        output[i] = out;
-      }
-    }
-  };
-  return node;
-}
-
 function initAudioCtx(){
   if(state.audioCtx) return;
-  state.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-  state.pitchShiftNode = createPitchShiftNode(state.audioCtx, 2);
-  // EQ filters
-  state.eqFilters = EQ_BANDS.map((b,i)=>{
-    const f = state.audioCtx.createBiquadFilter();
-    f.type = i===0?'lowshelf':i===EQ_BANDS.length-1?'highshelf':'peaking';
-    f.frequency.value = b.freq;
-    f.Q.value = 1.4;
-    f.gain.value = eqGains[i];
-    return f;
-  });
-  // Bass boost filter (separate low-shelf for punch)
-  state.bassFilter = state.audioCtx.createBiquadFilter();
+  const ctx = state.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+
+  // ── Single persistent <audio> element ──
+  state.audio = new Audio();
+  state.audio.crossOrigin = 'anonymous';
+  state.audio.volume = state.volume;
+  state.sourceNode = ctx.createMediaElementSource(state.audio);
+
+  // ── 1. Bass Boost (low-shelf) ──
+  state.bassFilter = ctx.createBiquadFilter();
   state.bassFilter.type = 'lowshelf';
   state.bassFilter.frequency.value = 120;
   state.bassFilter.gain.value = bassBoost;
-  // Chain: source → pitchShiftNode (Key) → bassFilter → eq[0] → eq[1] → … → destination
-  state.pitchShiftNode.connect(state.bassFilter);
-  state.eqFilters.reduce((prev,f)=>{ prev.connect(f); return f; }, state.bassFilter);
-  state.eqFilters[state.eqFilters.length-1].connect(state.audioCtx.destination);
+
+  // ── 2. EQ filters ──
+  state.eqFilters = EQ_BANDS.map((b,i)=>{
+    const f = ctx.createBiquadFilter();
+    f.type = i===0?'lowshelf':i===EQ_BANDS.length-1?'highshelf':'peaking';
+    f.frequency.value = b.freq; f.Q.value = 1.4; f.gain.value = eqGains[i];
+    return f;
+  });
+
+  // ── 3. Compressor ──
+  state.compressor = ctx.createDynamicsCompressor();
+  state.compressor.threshold.value = -24;
+  state.compressor.knee.value = 8;
+  state.compressor.ratio.value = 4;
+  state.compressor.attack.value = 0.003;
+  state.compressor.release.value = 0.25;
+
+  // ── 4. Stereo Widener (mid-side via splitter/merger) ──
+  state.widenSplitter = ctx.createChannelSplitter(2);
+  state.widenMerger  = ctx.createChannelMerger(2);
+  // L and R gain nodes — widening by inverting one side slightly
+  state.widenGainL = ctx.createGain(); state.widenGainL.gain.value = 1;
+  state.widenGainR = ctx.createGain(); state.widenGainR.gain.value = 1;
+
+  // ── 5. Reverb (ConvolverNode with synthetic IR) ──
+  state.reverbNode = ctx.createConvolver();
+  state.reverbGain  = ctx.createGain(); state.reverbGain.gain.value = 0;   // wet
+  state.dryGain     = ctx.createGain(); state.dryGain.gain.value   = 1;   // dry
+  buildReverbIR(1.5); // build default IR
+
+  // ── 6. Master Gain ──
+  state.masterGain = ctx.createGain();
+  state.masterGain.gain.value = 1; // 0 dB
+
+  // ── SIGNAL CHAIN ──
+  // source → bassFilter → eq chain → compressor
+  //        → widenSplitter → L/R gains → widenMerger
+  //        → dryGain → masterGain → destination
+  //        (also reverbNode tapped off widenMerger → reverbGain → masterGain)
+
+  const eqChainEnd = state.eqFilters.reduce((prev,f)=>{ prev.connect(f); return f; }, state.bassFilter);
+  state.sourceNode.connect(state.bassFilter);
+  eqChainEnd.connect(state.compressor);
+
+  // Compressor → splitter for widening
+  state.compressor.connect(state.widenSplitter);
+  state.widenSplitter.connect(state.widenGainL, 0);
+  state.widenSplitter.connect(state.widenGainR, 1);
+  state.widenGainL.connect(state.widenMerger, 0, 0);
+  state.widenGainR.connect(state.widenMerger, 0, 1);
+
+  // Merger → dry path + reverb wet path → master → out
+  state.widenMerger.connect(state.dryGain);
+  state.widenMerger.connect(state.reverbNode);
+  state.reverbNode.connect(state.reverbGain);
+  state.dryGain.connect(state.masterGain);
+  state.reverbGain.connect(state.masterGain);
+  state.masterGain.connect(ctx.destination);
+
+  // ── Audio events ──
+  state.audio.addEventListener('loadedmetadata',()=>{
+    const i = state.currentIndex; if(i<0) return;
+    document.getElementById('totalTime').textContent=fmt(state.audio.duration);
+    if(!state.tracks[i].duration){ state.tracks[i].duration=fmt(state.audio.duration); renderPlaylist(); }
+  });
+  state.audio.addEventListener('timeupdate',()=>{
+    const p=state.audio.duration?(state.audio.currentTime/state.audio.duration)*100:0;
+    document.getElementById('progressFill').style.width=p.toFixed(1)+'%';
+    document.getElementById('currentTime').textContent=fmt(state.audio.currentTime);
+  });
+  state.audio.addEventListener('ended',()=>{ if(state.repeat){state.audio.currentTime=0;state.audio.play();}else next(); });
 }
 
-function connectSourceToGraph(){
-  if(!state.audioCtx||!state.audio) return;
-  if(state.sourceNode){ try{state.sourceNode.disconnect();}catch(e){} }
-  state.sourceNode = state.audioCtx.createMediaElementSource(state.audio);
-  state.sourceNode.connect(state.pitchShiftNode);
+// Build synthetic reverb impulse response
+function buildReverbIR(decaySec){
+  if(!state.audioCtx) return;
+  const ctx = state.audioCtx;
+  const sr = ctx.sampleRate, len = sr * decaySec;
+  const buf = ctx.createBuffer(2, len, sr);
+  for(let ch=0;ch<2;ch++){
+    const d = buf.getChannelData(ch);
+    for(let i=0;i<len;i++) d[i] = (Math.random()*2-1) * Math.pow(1-(i/len), 2.5);
+  }
+  state.reverbNode.buffer = buf;
 }
 
 function applyEQBand(i,val){
@@ -808,7 +898,7 @@ function applyBassBoost(val){
     container.appendChild(div);
   });
   container.querySelectorAll('.eq-slider').forEach(sl=>{
-    sl.oninput=()=>{ applyEQBand(+sl.dataset.band,+sl.value); markCustomPreset(); saveState(); };
+    sl.oninput=()=>{ applyEQBand(+sl.dataset.band,+sl.value); markCustomPreset(); };
   });
 })();
 
@@ -818,11 +908,92 @@ function markCustomPreset(){
 
 document.getElementById('eqPresets').addEventListener('click',e=>{
   const chip = e.target.closest('.preset-chip');
-  if(chip){ applyPreset(chip.dataset.preset); saveState(); }
+  if(chip) applyPreset(chip.dataset.preset);
 });
 
-document.getElementById('bassSlider').oninput=function(){ applyBassBoost(+this.value); saveState(); };
-document.getElementById('bassReset').onclick=()=>{ applyBassBoost(0); saveState(); };
+document.getElementById('bassSlider').oninput=function(){ applyBassBoost(+this.value); };
+document.getElementById('bassReset').onclick=()=>applyBassBoost(0);
+
+/* ════════════════════════════════════════════════
+   FX CONTROLS
+════════════════════════════════════════════════ */
+
+// ── Compressor ──
+document.getElementById('compToggle').onchange = function(){
+  const on = this.checked;
+  document.getElementById('compVal').textContent = on ? 'ON' : 'OFF';
+  document.getElementById('compVal').style.color = on ? '#30d158' : 'var(--label3)';
+  document.getElementById('compControls').classList.toggle('fx-disabled', !on);
+  if(state.compressor) state.compressor.ratio.value = on ? +document.getElementById('compRatio').value : 1;
+};
+document.getElementById('compThresh').oninput = function(){
+  document.getElementById('compThreshVal').textContent = this.value + ' dB';
+  if(state.compressor) state.compressor.threshold.value = +this.value;
+};
+document.getElementById('compRatio').oninput = function(){
+  document.getElementById('compRatioVal').textContent = this.value + ':1';
+  if(state.compressor && document.getElementById('compToggle').checked)
+    state.compressor.ratio.value = +this.value;
+};
+
+// ── Stereo Widener ──
+document.getElementById('widenToggle').onchange = function(){
+  const on = this.checked;
+  document.getElementById('widenControls').classList.toggle('fx-disabled', !on);
+  const amt = on ? +document.getElementById('widenAmount').value : 0;
+  applyWidener(amt);
+  document.getElementById('widenVal').textContent = on ? amt + '%' : '0%';
+  document.getElementById('widenVal').style.color = on ? '#0a84ff' : 'var(--label3)';
+};
+document.getElementById('widenAmount').oninput = function(){
+  document.getElementById('widenVal').textContent = this.value + '%';
+  applyWidener(+this.value);
+};
+function applyWidener(pct){
+  if(!state.widenGainL) return;
+  // Increase gain difference between L/R to create width illusion
+  const w = pct / 100;
+  state.widenGainL.gain.value = 1 + w * 0.5;
+  state.widenGainR.gain.value = 1 - w * 0.3;
+}
+
+// ── Reverb ──
+document.getElementById('reverbToggle').onchange = function(){
+  const on = this.checked;
+  document.getElementById('reverbControls').classList.toggle('fx-disabled', !on);
+  const mix = on ? +document.getElementById('reverbMix').value : 0;
+  applyReverbMix(mix);
+  document.getElementById('reverbVal').textContent = on ? mix + '%' : '0%';
+  document.getElementById('reverbVal').style.color = on ? 'var(--accent)' : 'var(--label3)';
+};
+document.getElementById('reverbMix').oninput = function(){
+  document.getElementById('reverbMixVal').textContent = this.value + '%';
+  document.getElementById('reverbVal').textContent = this.value + '%';
+  applyReverbMix(+this.value);
+};
+document.getElementById('reverbDecay').oninput = function(){
+  const v = parseFloat(this.value).toFixed(1);
+  document.getElementById('reverbDecayVal').textContent = v + 's';
+  buildReverbIR(+v);
+};
+function applyReverbMix(pct){
+  if(!state.reverbGain) return;
+  const wet = pct / 100;
+  state.reverbGain.gain.value = wet * 0.8;
+  state.dryGain.gain.value = 1 - wet * 0.4;
+}
+
+// ── Master Gain ──
+document.getElementById('gainSlider').oninput = function(){
+  const db = +this.value;
+  document.getElementById('gainVal').textContent = (db>0?'+':'')+db+' dB';
+  if(state.masterGain) state.masterGain.gain.value = Math.pow(10, db/20);
+};
+document.getElementById('gainReset').onclick = function(){
+  document.getElementById('gainSlider').value = 0;
+  document.getElementById('gainVal').textContent = '0 dB';
+  if(state.masterGain) state.masterGain.gain.value = 1;
+};
 
 /* ════════════════════════════════════════════════
    HELPERS
@@ -882,10 +1053,10 @@ function renderPlaylist(){
 /* ════════════════════════════════════════════════
    TABS
 ════════════════════════════════════════════════ */
-document.getElementById('tabAll').onclick=()=>{ state.viewTab='all'; updateTabs(); renderPlaylist(); saveState(); };
+document.getElementById('tabAll').onclick=()=>{ state.viewTab='all'; updateTabs(); renderPlaylist(); };
 document.getElementById('tabPlaylist').onclick=()=>{
   if(!state.activePlaylistId){ openPlaylistsModal(); return; }
-  state.viewTab='playlist'; updateTabs(); renderPlaylist(); saveState();
+  state.viewTab='playlist'; updateTabs(); renderPlaylist();
 };
 function updateTabs(){
   document.getElementById('tabAll').classList.toggle('active', state.viewTab==='all');
@@ -921,15 +1092,12 @@ document.getElementById('ctxRemove').onclick=()=>{
   document.getElementById('ctxMenu').classList.remove('open');
   const i = state.ctxTrackIndex;
   if(i<0||i>=state.tracks.length) return;
-  const removedTrack = state.tracks[i];
   // Remove from all playlists
   state.playlists.forEach(pl=>{ pl.tracks = pl.tracks.filter(ti=>ti!==i).map(ti=>ti>i?ti-1:ti); });
   state.tracks.splice(i,1);
-  if(removedTrack?.id) idbDelete(removedTrack.id).catch(()=>{});
   if(state.currentIndex===i){ if(state.audio){state.audio.pause();state.audio.src='';} state.isPlaying=false; state.currentIndex=-1; updateUI(); }
   else if(state.currentIndex>i) state.currentIndex--;
   renderPlaylist(); updateUI(); updateLyrics();
-  saveState();
 };
 
 /* ════════════════════════════════════════════════
@@ -948,7 +1116,6 @@ document.getElementById('createNewPl').onclick=()=>{
   state.playlists.push({id, name, tracks:[]});
   document.getElementById('newPlName').value='';
   renderPlModal();
-  saveState();
 };
 
 function renderPlModal(){
@@ -977,7 +1144,6 @@ function renderPlModal(){
       state.activePlaylistId = state.activePlaylistId===plid ? null : plid;
       state.viewTab = state.activePlaylistId ? 'playlist' : 'all';
       updateTabs(); renderPlaylist(); renderPlModal();
-      saveState();
     });
   });
   c.querySelectorAll('[data-action="del"]').forEach(btn=>{
@@ -991,7 +1157,6 @@ function deletePl(id){
   state.playlists.splice(idx,1);
   if(state.activePlaylistId===id){ state.activePlaylistId=null; state.viewTab='all'; updateTabs(); renderPlaylist(); }
   renderPlModal();
-  saveState();
 }
 
 /* ════════════════════════════════════════════════
@@ -1023,7 +1188,6 @@ function openAddToPlSheet(trackIdx){
         else pl.tracks.push(i);
         el.querySelector('.add-pl-check').classList.toggle('on',!has);
         renderPlaylist();
-        saveState();
       });
     });
   }
@@ -1035,95 +1199,12 @@ document.getElementById('addToPlOverlay').addEventListener('click',e=>{ if(e.tar
 /* ════════════════════════════════════════════════
    LYRICS
 ════════════════════════════════════════════════ */
-state.lyricsViewMode = 'edit'; // 'edit' | 'view'
-
-function parseLyrics(raw){
-  // Parses LRC-style lines: [mm:ss.xx] text  -- timestamp is optional per line
-  const lines = (raw||'').split('\n');
-  return lines.map(line=>{
-    const m = line.match(/^\s*\[(\d{1,2}):(\d{2}(?:\.\d{1,2})?)\]\s*(.*)$/);
-    if(m){ return { time: parseInt(m[1],10)*60 + parseFloat(m[2]), text: m[3] }; }
-    return { time: null, text: line };
-  });
-}
-
-function renderLyricsView(){
-  const view = document.getElementById('lyricsView');
-  const t = state.tracks[state.currentIndex];
-  const raw = t ? (state.lyricsMap[t.name]||'') : '';
-  const parsed = parseLyrics(raw).filter(l=>l.text.trim()!=='' || l.time!==null);
-  if(!parsed.length){ view.innerHTML = '<div class="lyrics-empty-view">Walang lyrics pa. I-type at i-save sa "I-edit" tab.</div>'; return; }
-  view.innerHTML = parsed.map((l,i)=>`<div class="lyrics-line" data-time="${l.time!==null?l.time:''}" data-idx="${i}">${(l.text||'').replace(/</g,'&lt;')||'&nbsp;'}</div>`).join('');
-  view.querySelectorAll('.lyrics-line').forEach(el=>{
-    el.addEventListener('click',()=>{
-      const tm = el.getAttribute('data-time');
-      if(tm!==''&&state.audio){ state.audio.currentTime = parseFloat(tm); }
-    });
-  });
-}
-
-function updateLyricsHighlight(){
-  if(state.lyricsViewMode!=='view'||!state.audio) return;
-  const view = document.getElementById('lyricsView');
-  const lineEls = view.querySelectorAll('.lyrics-line[data-time]');
-  const timed = Array.from(lineEls).filter(el=>el.getAttribute('data-time')!=='');
-  if(!timed.length) return;
-  const cur = state.audio.currentTime;
-  let activeEl = null;
-  timed.forEach(el=>{
-    const tm = parseFloat(el.getAttribute('data-time'));
-    el.classList.remove('current');
-    if(tm<=cur){ el.classList.add('played'); activeEl = el; }
-    else el.classList.remove('played');
-  });
-  if(activeEl){
-    activeEl.classList.add('current');
-    activeEl.classList.remove('played');
-    const top = activeEl.offsetTop - view.clientHeight/2 + activeEl.offsetHeight/2;
-    view.scrollTo({top:Math.max(0,top),behavior:'smooth'});
-  }
-}
-
-function setLyricsMode(mode){
-  state.lyricsViewMode = mode;
-  document.getElementById('lyricsModeEdit').classList.toggle('active',mode==='edit');
-  document.getElementById('lyricsModeView').classList.toggle('active',mode==='view');
-  document.getElementById('lyricsEditPane').style.display = mode==='edit'?'':'none';
-  document.getElementById('lyricsView').classList.toggle('visible',mode==='view');
-  if(mode==='view'){ renderLyricsView(); updateLyricsHighlight(); }
-}
-document.getElementById('lyricsModeEdit').onclick=()=>setLyricsMode('edit');
-document.getElementById('lyricsModeView').onclick=()=>setLyricsMode('view');
-
-document.getElementById('tagTimeBtn').onclick=()=>{
-  if(!state.audio) return;
-  const ta = document.getElementById('lyricsInput');
-  const t = state.audio.currentTime;
-  const mm = Math.floor(t/60), ss = (t%60).toFixed(2).padStart(5,'0');
-  const stamp = `[${String(mm).padStart(2,'0')}:${ss}] `;
-  const pos = ta.selectionStart ?? ta.value.length;
-  const before = ta.value.slice(0,pos), after = ta.value.slice(pos);
-  // insert stamp at start of current line
-  const lineStart = before.lastIndexOf('\n')+1;
-  const newVal = before.slice(0,lineStart) + stamp + before.slice(lineStart) + after;
-  ta.value = newVal;
-  const newPos = lineStart + stamp.length + (before.length-lineStart);
-  ta.setSelectionRange(newPos,newPos);
-  ta.focus();
-};
-
 function updateLyrics(){
   const t = state.tracks[state.currentIndex];
   document.getElementById('noTrackMsg').style.display = t?'none':'';
   document.getElementById('lyricsEditor').style.display = t?'':'none';
-  if(t){
-    document.getElementById('lyricsTrackName').textContent=t.name;
-    document.getElementById('lyricsInput').value=state.lyricsMap[t.name]||'';
-    document.getElementById('savedNote').style.display='none';
-  } else {
-    document.getElementById('lyricsTrackName').textContent='';
-  }
-  setLyricsMode('edit');
+  if(t){ document.getElementById('lyricsTrackName').textContent=t.name; document.getElementById('lyricsInput').value=state.lyricsMap[t.name]||''; document.getElementById('savedNote').style.display='none'; }
+  else document.getElementById('lyricsTrackName').textContent='';
 }
 
 /* ════════════════════════════════════════════════
@@ -1141,15 +1222,13 @@ function updateUI(){
   const favBtn = document.getElementById('favBtn');
   if(t){ const f=state.favorites.has(t.name); favBtn.textContent=f?'♥':'♡'; favBtn.classList.toggle('active',f); }
   else { favBtn.textContent='♡'; favBtn.classList.remove('active'); }
+  updateMiniPlayers();
 }
 
 /* ════════════════════════════════════════════════
    PITCH
 ════════════════════════════════════════════════ */
-function applyPitch(){
-  if(state.pitchShiftNode) state.pitchShiftNode.setPitchRatio(Math.pow(2,state.pitch/12));
-  if(state.audio) state.audio.playbackRate = 1; // speed/tempo stays normal — only the KEY changes
-}
+function applyPitch(){ if(state.audio) state.audio.playbackRate=Math.pow(2,state.pitch/12); }
 
 /* ════════════════════════════════════════════════
    LOAD TRACK
@@ -1157,31 +1236,21 @@ function applyPitch(){
 function loadTrack(i){
   if(i<0||i>=state.tracks.length) return;
   state.currentIndex=i;
-  if(state.audio){ state.audio.pause(); state.audio.src=''; }
-  initAudioCtx();
+  initAudioCtx(); // creates audio element + graph once
   if(state.audioCtx.state==='suspended') state.audioCtx.resume();
-  state.audio = new Audio(state.tracks[i].url);
+  // Just swap src — no new Audio(), no new MediaElementSource
+  state.audio.pause();
+  state.audio.src = state.tracks[i].url;
+  state.audio.load();
   state.audio.volume = state.volume;
-  connectSourceToGraph();
-  state.audio.addEventListener('loadedmetadata',()=>{
-    document.getElementById('totalTime').textContent=fmt(state.audio.duration);
-    if(!state.tracks[i].duration){ state.tracks[i].duration=fmt(state.audio.duration); renderPlaylist(); saveState(); }
-  });
-  state.audio.addEventListener('timeupdate',()=>{
-    const p=state.audio.duration?(state.audio.currentTime/state.audio.duration)*100:0;
-    document.getElementById('progressFill').style.width=p.toFixed(1)+'%';
-    document.getElementById('currentTime').textContent=fmt(state.audio.currentTime);
-    updateLyricsHighlight();
-  });
-  state.audio.addEventListener('ended',()=>{ if(state.repeat){state.audio.currentTime=0;state.audio.play();}else next(); });
   applyPitch();
-  state.audio.play().then(()=>{ state.isPlaying=true; updateUI(); renderPlaylist(); updateLyrics(); saveState(); }).catch(()=>{});
+  state.audio.play().then(()=>{ state.isPlaying=true; updateUI(); renderPlaylist(); updateLyrics(); }).catch(()=>{});
 }
 
 function playPause(){
   if(!state.audio||state.currentIndex===-1){ if(state.tracks.length) loadTrack(0); return; }
   if(state.isPlaying){ state.audio.pause(); state.isPlaying=false; }
-  else { initAudioCtx(); if(state.audioCtx.state==='suspended')state.audioCtx.resume(); state.audio.play(); state.isPlaying=true; }
+  else { if(state.audioCtx&&state.audioCtx.state==='suspended')state.audioCtx.resume(); state.audio.play(); state.isPlaying=true; }
   updateUI(); renderPlaylist();
 }
 function next(){ if(!state.tracks.length)return; const v=getViewTracks(); if(!v.length)return; const ci=v.indexOf(state.currentIndex); loadTrack(state.shuffle?v[Math.floor(Math.random()*v.length)]:v[(ci+1)%v.length]); }
@@ -1193,28 +1262,22 @@ function prev(){ if(!state.tracks.length)return; if(state.audio&&state.audio.cur
 document.getElementById('playBtn').onclick=playPause;
 document.getElementById('nextBtn').onclick=next;
 document.getElementById('prevBtn').onclick=prev;
-document.getElementById('shuffleBtn').onclick=function(){ state.shuffle=!state.shuffle; this.classList.toggle('active',state.shuffle); saveState(); };
-document.getElementById('repeatBtn').onclick=function(){ state.repeat=!state.repeat; this.classList.toggle('active',state.repeat); saveState(); };
+document.getElementById('shuffleBtn').onclick=function(){ state.shuffle=!state.shuffle; this.classList.toggle('active',state.shuffle); };
+document.getElementById('repeatBtn').onclick=function(){ state.repeat=!state.repeat; this.classList.toggle('active',state.repeat); };
 document.getElementById('progressWrap').addEventListener('click',function(e){ if(!state.audio||!state.audio.duration)return; state.audio.currentTime=((e.clientX-this.getBoundingClientRect().left)/this.offsetWidth)*state.audio.duration; });
-document.getElementById('volSlider').oninput=function(){ state.volume=+this.value; if(state.audio)state.audio.volume=state.volume; saveState(); };
+document.getElementById('volSlider').oninput=function(){ state.volume=+this.value; if(state.audio)state.audio.volume=state.volume; };
 const pSlider=document.getElementById('pitchSlider');
 function setPitch(v){ pSlider.value=v; state.pitch=v; document.getElementById('pitchDisplay').textContent=v===0?'0 semitones':(v>0?'+'+v:v)+' semitones'; applyPitch(); }
-pSlider.oninput=()=>{ setPitch(+pSlider.value); saveState(); };
-document.getElementById('pitchUp').onclick=()=>{ if(+pSlider.value<12){ setPitch(+pSlider.value+1); saveState(); } };
-document.getElementById('pitchDown').onclick=()=>{ if(+pSlider.value>-12){ setPitch(+pSlider.value-1); saveState(); } };
-document.getElementById('pitchReset').onclick=()=>{ setPitch(0); saveState(); };
-document.getElementById('favBtn').onclick=()=>{ const t=state.tracks[state.currentIndex]; if(!t)return; if(state.favorites.has(t.name))state.favorites.delete(t.name); else state.favorites.add(t.name); updateUI(); saveState(); };
-document.getElementById('saveLyricsBtn').onclick=()=>{ const t=state.tracks[state.currentIndex]; if(!t)return; state.lyricsMap[t.name]=document.getElementById('lyricsInput').value; const n=document.getElementById('savedNote'); n.style.display='inline'; setTimeout(()=>n.style.display='none',2000); renderLyricsView(); saveState(); };
+pSlider.oninput=()=>setPitch(+pSlider.value);
+document.getElementById('pitchUp').onclick=()=>{ if(+pSlider.value<12) setPitch(+pSlider.value+1); };
+document.getElementById('pitchDown').onclick=()=>{ if(+pSlider.value>-12) setPitch(+pSlider.value-1); };
+document.getElementById('pitchReset').onclick=()=>setPitch(0);
+document.getElementById('favBtn').onclick=()=>{ const t=state.tracks[state.currentIndex]; if(!t)return; if(state.favorites.has(t.name))state.favorites.delete(t.name); else state.favorites.add(t.name); updateUI(); };
+document.getElementById('saveLyricsBtn').onclick=()=>{ const t=state.tracks[state.currentIndex]; if(!t)return; state.lyricsMap[t.name]=document.getElementById('lyricsInput').value; const n=document.getElementById('savedNote'); n.style.display='inline'; setTimeout(()=>n.style.display='none',2000); };
 document.getElementById('fileInput').onchange=function(e){
-  const files = Array.from(e.target.files);
-  files.forEach(f=>{
-    const id = uid();
-    state.tracks.push({id, name:f.name.replace(/\.[^.]+$/,''), url:URL.createObjectURL(f), duration:null});
-    idbSet(id, f).catch(err=>console.warn('idbSet failed', err));
-  });
+  Array.from(e.target.files).forEach(f=>{ state.tracks.push({name:f.name.replace(/\.[^.]+$/,''),url:URL.createObjectURL(f),duration:null}); });
   renderPlaylist();
   if(state.currentIndex===-1&&state.tracks.length) loadTrack(0);
-  saveState();
   this.value='';
 };
 
@@ -1226,8 +1289,77 @@ document.getElementById('dismissBtn').onclick=()=>document.getElementById('insta
 window.addEventListener('appinstalled',()=>document.getElementById('installBanner').classList.remove('visible'));
 if('serviceWorker'in navigator) navigator.serviceWorker.register('sw.js');
 
-renderPlaylist(); updateUI(); updateLyrics(); updateTabs();
-loadPersistedState();
+/* ════════════════════════════════════════════════
+   BOTTOM TAB BAR SWITCHING
+════════════════════════════════════════════════ */
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabPanels = document.querySelectorAll('.tab-panel');
+const TOPBAR_TITLES = {
+  panelPlayer: 'Now Playing',
+  panelSound: 'Sound',
+  panelLibrary: 'Library',
+  panelLyrics: 'Lyrics'
+};
+
+function switchTab(panelId){
+  tabPanels.forEach(p=>p.classList.toggle('active', p.id===panelId));
+  tabBtns.forEach(b=>b.classList.toggle('active', b.dataset.tab===panelId));
+  document.getElementById('topbarTitle').textContent = TOPBAR_TITLES[panelId]||'Music';
+  updateMiniPlayers();
+}
+
+tabBtns.forEach(btn=>btn.addEventListener('click',()=>switchTab(btn.dataset.tab)));
+
+/* ════════════════════════════════════════════════
+   MINI PLAYERS (shown on non-player tabs)
+════════════════════════════════════════════════ */
+function updateMiniPlayers(){
+  const t = state.tracks[state.currentIndex];
+  const title = t ? t.name : 'No track';
+  const playIcon = state.isPlaying
+    ? '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>'
+    : '<polygon points="5 3 19 12 5 21 5 3"/>';
+
+  ['Sound','Lib','Lyrics'].forEach(suffix=>{
+    const mp = document.getElementById('miniPlayer'+suffix);
+    const titleEl = document.getElementById('miniTitle'+suffix);
+    if(mp) mp.classList.toggle('visible', !!t);
+    if(titleEl) titleEl.textContent = title;
+    const playEl = document.getElementById('miniPlay'+suffix);
+    if(playEl) playEl.querySelector('svg').innerHTML = playIcon;
+  });
+}
+
+// Mini play/next bindings
+['Sound','Lib','Lyrics'].forEach(suffix=>{
+  const playEl = document.getElementById('miniPlay'+suffix);
+  const nextEl = document.getElementById('miniNext'+suffix);
+  if(playEl) playEl.onclick = ()=>{ playPause(); updateMiniPlayers(); };
+  if(nextEl) nextEl.onclick = ()=>{ next(); updateMiniPlayers(); };
+});
+
+// Mini player tap → go to Now Playing
+document.querySelectorAll('.mini-player').forEach(mp=>{
+  mp.addEventListener('click', e=>{
+    if(e.target.closest('button')) return;
+    switchTab('panelPlayer');
+  });
+});
+
+/* ════════════════════════════════════════════════
+   SOUND SUB-TABS
+════════════════════════════════════════════════ */
+document.querySelectorAll('.sound-tab-chip').forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    document.querySelectorAll('.sound-tab-chip').forEach(c=>c.classList.remove('active'));
+    document.querySelectorAll('.sound-sub-panel').forEach(p=>p.classList.remove('active'));
+    chip.classList.add('active');
+    const panel = document.getElementById('sub' + chip.dataset.sub);
+    if(panel) panel.classList.add('active');
+  });
+});
+
+renderPlaylist(); updateUI(); updateLyrics(); updateTabs(); updateMiniPlayers();
 </script>
 </body>
 </html>
